@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AquaVita — Estação de Tratamento de Água</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde-escuro: #1a3a1f;
+    --verde-meio: #2d5a27;
+    --verde-claro: #4a7c3f;
+    --verde-suave: #7ab648;
+    --agua-escura: #1a3a4a;
+    --agua-meio: #1e6091;
+    --agua-clara: #48a9c5;
+    --agua-suave: #a8d8ea;
+    --creme: #f5f0e8;
+    --creme-escuro: #ede5d0;
+    --marrom: #8b5e3c;
+    --texto: #2c2c2c;
+    --texto-claro: #5a5a5a;
+    --branco: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--creme);
+    color: var(--texto);
+    overflow-x: hidden;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    background: rgba(26, 58, 31, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 70px;
+    border-bottom: 2px solid var(--verde-suave);
+  }
+  .nav-logo {
+    font-family: 'Lora', serif;
+    font-size: 1.5rem; font-weight: 700;
+    color: var(--creme);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-logo span { color: var(--agua-clara); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--creme-escuro);
+    text-decoration: none;
+    font-size: 0.9rem; font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--agua-clara);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--agua-clara); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background:
+      linear-gradient(160deg, rgba(26,58,31,0.92) 0%, rgba(30,96,145,0.85) 60%, rgba(26,58,74,0.95) 100%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600'%3E%3Cdefs%3E%3CradialGradient id='a' cx='50%25' cy='50%25'%3E%3Cstop offset='0' stop-color='%234a7c3f' stop-opacity='.3'/%3E%3Cstop offset='1' stop-color='%231a3a4a' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='800' height='600' fill='%231a3a1f'/%3E%3Ccircle cx='400' cy='300' r='300' fill='url(%23a)'/%3E%3C/svg%3E");
+    background-size: cover; background-position: center;
+    display: flex; align-items: center;
+    padding: 100px 5% 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Ondas decorativas */
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -2px; left: 0; right: 0;
+    height: 120px;
+    background: var(--creme);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+
+  /* Bolhas flutuantes */
+  .bolha {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(72, 169, 197, 0.12);
+    border: 1px solid rgba(72, 169, 197, 0.2);
+    animation: float 8s ease-in-out infinite;
+  }
+  .bolha:nth-child(1) { width: 80px; height: 80px; top: 20%; right: 15%; animation-delay: 0s; }
+  .bolha:nth-child(2) { width: 50px; height: 50px; top: 50%; right: 25%; animation-delay: 2s; }
+  .bolha:nth-child(3) { width: 120px; height: 120px; top: 70%; right: 8%; animation-delay: 4s; }
+  .bolha:nth-child(4) { width: 30px; height: 30px; top: 30%; right: 40%; animation-delay: 1s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+    50% { transform: translateY(-30px) scale(1.05); opacity: 1; }
+  }
+
+  .hero-content { max-width: 650px; position: relative; z-index: 2; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(122,182,72,0.2);
+    border: 1px solid rgba(122,182,72,0.4);
+    color: var(--verde-suave);
+    padding: 6px 16px; border-radius: 50px;
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 24px;
+    animation: fadeInUp 0.8s ease both;
+  }
+  .hero h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 700; line-height: 1.15;
+    color: var(--branco);
+    margin-bottom: 24px;
+    animation: fadeInUp 0.8s ease 0.2s both;
+  }
+  .hero h1 em { color: var(--agua-clara); font-style: italic; }
+  .hero p {
+    font-size: 1.1rem; line-height: 1.8;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 40px;
+    animation: fadeInUp 0.8s ease 0.4s both;
+  }
+  .hero-btns {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeInUp 0.8s ease 0.6s both;
+  }
+  .btn-primary {
+    background: var(--verde-suave);
+    color: var(--verde-escuro);
+    padding: 14px 32px; border-radius: 50px;
+    font-weight: 700; font-size: 0.95rem;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(122,182,72,0.4);
+  }
+  .btn-primary:hover {
+    background: #8fd455; transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(122,182,72,0.5);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--agua-clara);
+    padding: 14px 32px; border-radius: 50px;
+    font-weight: 500; font-size: 0.95rem;
+    text-decoration: none;
+    border: 2px solid var(--agua-clara);
+    transition: all 0.3s;
+  }
+  .btn-outline:hover {
+    background: var(--agua-clara); color: var(--agua-escura);
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 60px; flex-wrap: wrap;
+    animation: fadeInUp 0.8s ease 0.8s both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Lora', serif;
+    font-size: 2rem; font-weight: 700;
+    color: var(--agua-clara);
+    display: block;
+  }
+  .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 4px; }
+
+  /* ── IMPORTÂNCIA DA ETA ── */
+  .importancia {
+    padding: 100px 5%;
+    background: var(--creme);
+  }
+  .section-header { text-align: center; margin-bottom: 64px; }
+  .section-tag {
+    display: inline-block;
+    color: var(--verde-meio);
+    font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .section-tag::before, .section-tag::after {
+    content: '—'; margin: 0 8px;
+    color: var(--verde-suave);
+  }
+  .section-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700; color: var(--verde-escuro);
+    line-height: 1.2; margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 1.05rem; color: var(--texto-claro);
+    max-width: 600px; margin: 0 auto; line-height: 1.7;
+  }
+
+  .importancia-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px; max-width: 1100px; margin: 0 auto;
+  }
+  .imp-card {
+    background: var(--branco);
+    border-radius: 20px;
+    padding: 36px 28px;
+    border: 1px solid rgba(74,124,63,0.15);
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .imp-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--verde-meio), var(--agua-clara));
+  }
+  .imp-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(26,58,31,0.12);
+  }
+  .imp-icon {
+    width: 60px; height: 60px; border-radius: 16px;
+    background: linear-gradient(135deg, var(--verde-meio), var(--agua-meio));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; margin-bottom: 20px;
+  }
+  .imp-card h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.2rem; font-weight: 600;
+    color: var(--verde-escuro); margin-bottom: 12px;
+  }
+  .imp-card p { font-size: 0.95rem; color: var(--texto-claro); line-height: 1.7; }
+
+  /* ── ETAPAS ETA ── */
+  .etapas {
+    padding: 100px 5%;
+    background: linear-gradient(180deg, var(--verde-escuro) 0%, var(--agua-escura) 100%);
+    position: relative; overflow: hidden;
+  }
+  .etapas::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 100px; background: var(--creme);
+    clip-path: ellipse(55% 100% at 50% 0%);
+  }
+  .etapas::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 100px; background: var(--creme);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  .etapas .section-title { color: var(--creme); }
+  .etapas .section-sub { color: rgba(245,240,232,0.7); }
+  .etapas .section-tag { color: var(--agua-clara); }
+
+  .etapas-container {
+    max-width: 1000px; margin: 0 auto;
+    position: relative; z-index: 2;
+  }
+
+  /* Linha central */
+  .etapas-linha {
+    position: relative;
+    padding: 20px 0;
+  }
+  .etapas-linha::before {
+    content: '';
+    position: absolute; left: 50%; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--verde-suave), var(--agua-clara), var(--verde-suave));
+    transform: translateX(-50%);
+  }
+
+  .etapa-item {
+    display: flex; align-items: flex-start;
+    margin-bottom: 60px; position: relative;
+    gap: 40px;
+  }
+  .etapa-item:nth-child(even) { flex-direction: row-reverse; }
+  .etapa-item:nth-child(even) .etapa-texto { text-align: right; }
+
+  .etapa-numero {
+    position: absolute; left: 50%;
+    transform: translateX(-50%);
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--verde-suave), var(--agua-clara));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Lora', serif;
+    font-size: 1.3rem; font-weight: 700;
+    color: var(--verde-escuro);
+    box-shadow: 0 0 0 6px rgba(122,182,72,0.2), 0 0 0 12px rgba(122,182,72,0.08);
+    z-index: 3; flex-shrink: 0;
+  }
+
+  .etapa-texto {
+    flex: 1;
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 28px 32px;
+    transition: all 0.3s;
+    margin: 0 calc(28px + 40px) 0 0;
+  }
+  .etapa-item:nth-child(even) .etapa-texto {
+    margin: 0 0 0 calc(28px + 40px);
+  }
+  .etapa-texto:hover {
+    background: rgba(255,255,255,0.12);
+    transform: scale(1.02);
+  }
+
+  .etapa-emoji { font-size: 2rem; margin-bottom: 10px; display: block; }
+  .etapa-texto h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.25rem; font-weight: 600;
+    color: var(--agua-clara); margin-bottom: 10px;
+  }
+  .etapa-texto p {
+    font-size: 0.95rem; color: rgba(245,240,232,0.8);
+    line-height: 1.7;
+  }
+  .etapa-badge {
+    display: inline-block;
+    background: rgba(122,182,72,0.2);
+    border: 1px solid rgba(122,182,72,0.3);
+    color: var(--verde-suave);
+    font-size: 0.75rem; font-weight: 600;
+    padding: 4px 12px; border-radius: 50px;
+    margin-bottom: 12px; letter-spacing: 0.5px;
+  }
+
+  /* ── PRESERVAÇÃO AMBIENTAL ── */
+  .preservacao {
+    padding: 100px 5%;
+    background: var(--creme);
+  }
+
+  .preservacao-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+    max-width: 1100px; margin: 0 auto 80px;
+  }
+  .preservacao-split.reverse { direction: rtl; }
+  .preservacao-split.reverse > * { direction: ltr; }
+
+  .preservacao-visual {
+    border-radius: 24px; overflow: hidden;
+    position: relative;
+  }
+  .preservacao-svg {
+    width: 100%; border-radius: 24px;
+  }
+
+  .preservacao-texto h2 {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    font-weight: 700; color: var(--verde-escuro);
+    margin-bottom: 20px; line-height: 1.3;
+  }
+  .preservacao-texto p {
+    font-size: 1rem; color: var(--texto-claro);
+    line-height: 1.8; margin-bottom: 16px;
+  }
+
+  .checklist { list-style: none; margin: 24px 0; }
+  .checklist li {
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 14px;
+    font-size: 0.95rem; color: var(--texto);
+    line-height: 1.6;
+  }
+  .check-icon {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--verde-meio), var(--verde-suave));
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 0.7rem; flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* ── DADOS / NÚMEROS ── */
+  .dados {
+    padding: 80px 5%;
+    background: var(--verde-escuro);
+    text-align: center;
+  }
+  .dados-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px; max-width: 900px; margin: 0 auto;
+  }
+  .dado-item { padding: 20px; }
+  .dado-num {
+    font-family: 'Lora', serif;
+    font-size: 3rem; font-weight: 700;
+    color: var(--agua-clara);
+    display: block; margin-bottom: 8px;
+  }
+  .dado-label {
+    font-size: 0.95rem; color: rgba(245,240,232,0.7);
+    line-height: 1.5;
+  }
+
+  /* ── SUSTENTABILIDADE ── */
+  .sustentabilidade {
+    padding: 100px 5%;
+    background: var(--creme-escuro);
+  }
+  .pilares-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px; max-width: 1000px; margin: 0 auto;
+  }
+  .pilar {
+    background: var(--branco);
+    border-radius: 20px; padding: 36px 24px;
+    text-align: center;
+    border-bottom: 4px solid transparent;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .pilar:nth-child(1) { border-bottom-color: var(--verde-meio); }
+  .pilar:nth-child(2) { border-bottom-color: var(--agua-meio); }
+  .pilar:nth-child(3) { border-bottom-color: var(--marrom); }
+  .pilar:nth-child(4) { border-bottom-color: var(--verde-suave); }
+  .pilar:nth-child(5) { border-bottom-color: var(--agua-clara); }
+  .pilar:nth-child(6) { border-bottom-color: #c8a94a; }
+  .pilar:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+  .pilar-emoji { font-size: 2.5rem; margin-bottom: 16px; display: block; }
+  .pilar h3 {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem; font-weight: 600;
+    color: var(--verde-escuro); margin-bottom: 10px;
+  }
+  .pilar p { font-size: 0.9rem; color: var(--texto-claro); line-height: 1.6; }
+
+  /* ── CTA FINAL ── */
+  .cta {
+    padding: 100px 5%;
+    background: linear-gradient(135deg, var(--verde-meio) 0%, var(--agua-meio) 100%);
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1.5' fill='rgba(255,255,255,0.08)'/%3E%3C/svg%3E");
+  }
+  .cta-content { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+  .cta h2 {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    color: var(--branco); margin-bottom: 20px; line-height: 1.3;
+  }
+  .cta p {
+    font-size: 1.05rem; color: rgba(255,255,255,0.85);
+    margin-bottom: 40px; line-height: 1.7;
+  }
+  .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-cta-white {
+    background: var(--branco); color: var(--verde-meio);
+    padding: 16px 36px; border-radius: 50px;
+    font-weight: 700; font-size: 1rem;
+    text-decoration: none; transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  .btn-cta-white:hover {
+    background: var(--creme); transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  }
+  .btn-cta-ghost {
+    background: transparent; color: var(--branco);
+    padding: 16px 36px; border-radius: 50px;
+    font-weight: 500; font-size: 1rem;
+    text-decoration: none;
+    border: 2px solid rgba(255,255,255,0.6);
+    transition: all 0.3s;
+  }
+  .btn-cta-ghost:hover {
+    background: rgba(255,255,255,0.15); transform: translateY(-2px);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--verde-escuro);
+    color: rgba(245,240,232,0.7);
+    padding: 60px 5% 30px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px; margin-bottom: 48px;
+  }
+  .footer-logo {
+    font-family: 'Lora', serif; font-size: 1.6rem;
+    font-weight: 700; color: var(--creme); margin-bottom: 14px;
+  }
+  .footer-logo span { color: var(--agua-clara); }
+  .footer-desc { font-size: 0.9rem; line-height: 1.7; max-width: 280px; }
+  .footer-col h4 {
+    color: var(--creme); font-weight: 600;
+    margin-bottom: 16px; font-size: 0.95rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul li a {
+    color: rgba(245,240,232,0.6);
+    text-decoration: none; font-size: 0.9rem;
+    transition: color 0.3s;
+  }
+  .footer-col ul li a:hover { color: var(--agua-clara); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 24px; text-align: center;
+    font-size: 0.85rem;
+  }
+
+  /* ── ANIMAÇÕES ── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: all 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1; transform: translateY(0);
+  }
+
+  /* ── RESPONSIVO ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .preservacao-split,
+    .preservacao-split.reverse { grid-template-columns: 1fr; direction: ltr; gap: 40px; }
+    .pilares-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+    .etapas-linha::before { left: 28px; }
+    .etapa-item, .etapa-item:nth-child(even) { flex-direction: column; gap: 0; }
+    .etapa-numero { position: relative; left: 0; transform: none; margin-bottom: 16px; }
+    .etapa-texto,
+    .etapa-item:nth-child(even) .etapa-texto { margin: 0 0 0 0; text-align: left; }
+    .hero-stats { gap: 24px; }
+    .dados-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .pilares-grid { grid-template-columns: 1fr; }
+    .dados-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">💧 Aqua<span>Vita</span></div>
+  <ul class="nav-links">
+    <li><a href="#importancia">Importância</a></li>
+    <li><a href="#etapas">Etapas ETA</a></li>
+    <li><a href="#preservacao">Preservação</a></li>
+    <li><a href="#sustentabilidade">Sustentabilidade</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="bolha"></div>
+  <div class="bolha"></div>
+  <div class="bolha"></div>
+  <div class="bolha"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">🌿 Saneamento Ambiental</div>
+    <h1>Água Limpa é<br><em>Vida Preservada</em></h1>
+    <p>Conheça as etapas do tratamento de água nas Estações de Tratamento (ETA) e entenda por que preservar o meio ambiente é essencial para garantir água potável para todos.</p>
+    <div class="hero-btns">
+      <a href="#etapas" class="btn-primary">Ver Etapas da ETA</a>
+      <a href="#preservacao" class="btn-outline">Meio Ambiente</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">8</span>
+        <div class="stat-label">Etapas de<br>Tratamento</div>
+      </div>
+      <div class="stat">
+        <span class="stat-num">97%</span>
+        <div class="stat-label">Eficiência no<br>Tratamento</div>
+      </div>
+      <div class="stat">
+        <span class="stat-num">2B+</span>
+        <div class="stat-label">Pessoas sem<br>Água Tratada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPORTÂNCIA DA ETA -->
+<section class="importancia" id="importancia">
+  <div class="section-header reveal">
+    <div class="section-tag">Por que é essencial</div>
+    <h2 class="section-title">A Importância da ETA no<br>Tratamento de Água</h2>
+    <p class="section-sub">A Estação de Tratamento de Água é a infraestrutura responsável por transformar água bruta em água segura para consumo humano, protegendo a saúde pública.</p>
+  </div>
+  <div class="importancia-grid">
+    <div class="imp-card reveal">
+      <div class="imp-icon">🏥</div>
+      <h3>Saúde Pública</h3>
+      <p>Remove bactérias, vírus, protozoários e substâncias químicas nocivas, prevenindo doenças de veiculação hídrica como cólera, febre tifoide e hepatite A.</p>
+    </div>
+    <div class="imp-card reveal">
+      <div class="imp-icon">🌊</div>
+      <h3>Qualidade da Água</h3>
+      <p>Garante que a água atenda aos parâmetros físicos, químicos e microbiológicos da Portaria GM/MS 888/2021, assegurando potabilidade e segurança.</p>
+    </div>
+    <div class="imp-card reveal">
+      <div class="imp-icon">🌿</div>
+      <h3>Equilíbrio Ecológico</h3>
+      <p>Reduz o impacto do consumo sobre os mananciais naturais e contribui para a manutenção dos ecossistemas aquáticos e da biodiversidade local.</p>
+    </div>
+    <div class="imp-card reveal">
+      <div class="imp-icon">⚡</div>
+      <h3>Desenvolvimento Social</h3>
+      <p>O acesso à água tratada é direito fundamental. ETAs bem operadas reduzem desigualdades e contribuem para o desenvolvimento sustentável das comunidades.</p>
+    </div>
+    <div class="imp-card reveal">
+      <div class="imp-icon">🔬</div>
+      <h3>Controle de Qualidade</h3>
+      <p>Laboratórios realizam análises contínuas para monitorar turbidez, pH, cloro residual, coliformes e mais de 100 parâmetros de qualidade da água.</p>
+    </div>
+    <div class="imp-card reveal">
+      <div class="imp-icon">♻️</div>
+      <h3>Gestão Sustentável</h3>
+      <p>ETAs modernas reaproveitam resíduos do tratamento, reduzem o consumo de energia e implementam tecnologias que minimizam o impacto ambiental.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NÚMEROS IMPACTANTES -->
+<section class="dados">
+  <div class="dados-grid">
+    <div class="dado-item reveal">
+      <span class="dado-num">71%</span>
+      <div class="dado-label">da superfície da Terra<br>é coberta por água</div>
+    </div>
+    <div class="dado-item reveal">
+      <span class="dado-num">3%</span>
+      <div class="dado-label">apenas é água doce<br>disponível no planeta</div>
+    </div>
+    <div class="dado-item reveal">
+      <span class="dado-num">785M</span>
+      <div class="dado-label">pessoas sem acesso<br>à água potável segura</div>
+    </div>
+    <div class="dado-item reveal">
+      <span class="dado-num">80%</span>
+      <div class="dado-label">das doenças em países<br>em desenvolvimento são hídricas</div>
+    </div>
+  </div>
+</section>
+
+<!-- ETAPAS DA ETA -->
+<section class="etapas" id="etapas">
+  <div class="section-header reveal">
+    <div class="section-tag">Processo de Tratamento</div>
+    <h2 class="section-title">As Etapas da Estação de<br>Tratamento de Água (ETA)</h2>
+    <p class="section-sub">Da captação ao consumidor, a água passa por um rigoroso processo de tratamento com múltiplas etapas para garantir sua segurança.</p>
+  </div>
+
+  <div class="etapas-container">
+    <div class="etapas-linha">
+
+      <div class="etapa-item reveal">
+        <div class="etapa-numero">1</div>
+        <div class="etapa-texto">
+          <div class="etapa-badge">Início do Processo</div>
+          <span class="etapa-emoji">🏞️</span>
+          <h3>Captação</h3>
+          <p>A água bruta é coletada de mananciais superficiais (rios, lagos, represas) ou subterrâneos (poços artesianos). A escolha do ponto de captação considera a qualidade e a vazão do manancial, além da proteção contra poluição.</p>
+        </div>
+      </div>
+
+      <div class="etapa-item reveal">
+        <div class="etapa-numero">2</div>
+        <div class="etapa-texto">
+          <div class="etapa-badge">Pré-tratamento</div>
+          <span class="etapa-emoji">🚿</span>
+          <h3>Gradeamento e Peneiramento</h3>
+          <p>Grades e peneiras removem materiais grosseiros como galhos, folhas, resíduos sólidos e partículas maiores que possam danificar os equipamentos ou interferir nas etapas seguintes do tratamento.</p>
+        </div>
+      </div>
+
+      <div class="etapa-item reveal">
+        <div class="etapa-numero">3</div>
+        <div class="etapa-texto">
+          <div class="etapa-badge">Química</div>
+          <span class="etapa-emoji">⚗️</span>
+          <h3>Coagulação</h3>
+          <p>Produtos químicos coagulantes — como sulfato de alumínio ou cloreto férrico — são adicionados à água para neutralizar as cargas elétricas das partículas coloidais em suspensão, permitindo que se aglomerem.</p>
+        </div>
+      </div>
+
+      <div class="etapa-item reveal">
+        <div class="etapa-numero">4</div>
+        <div class="etapa-texto">
+          <div class="etapa-badge">Física + Química</div>
+          <span class="etapa-emoji">🌀</span>
+          <h3>Floculação</h3>
+          <p>Agitação lenta da água permite que as partículas coaguladas se agrupem formando flocos maiores e mais densos, chamados "flocos de lodo". Essa etapa prepara os sólidos para a remoção nas etapas seguintes.</p>
+        </div>
+      </div>
+
+      <div class="etapa-item reveal">
+        <div class="etapa-numero">5</div>
+        <div class="etapa-texto">
+          <div class="etapa-badge">Separação</div>
+          <span class="etapa-emoji">⬇️</span>
+          <h3>Decantação / Sedimentação</h3>
+          <p>Os flocos formados se depositam no fundo dos decantadores pela ação da gravidade. A água clarificada é retirada pela parte superior, enquanto o lodo acumulado no fundo é removido periodicamente para tratamento.</p>
+        </div>
+      </div>
+
+      <div class="etapa-item reveal">
+        <div class="etapa-numero">6</div>
+        <div class="etapa-texto">
+          <div class="etapa-badge">Purificação</div>
+          <span class="etapa-emoji">🏔️</span>
+          <h3>Filtração</h3>
+          <p>A água passa por filtros compostos de camadas de areia, cascalho e carvão antracito que retêm as partículas restantes, microorganismos e impurezas que escaparam das etapas anteriores. É uma das etapas mais importantes do processo.</p>
+        </div>
+      </div>
+
+      <div class="etapa-item reveal">
+        <div class="etapa-numero">7</div>
+        <div class="etapa-texto">
+          <div class="etapa-badge">Desinfecção</div>
+          <span class="etapa-emoji">🔵</span>
+          <h3>Desinfecção e Fluoretação</h3>
+          <p>Cloro, ozônio ou UV eliminam bactérias e vírus patogênicos. O flúor é adicionado na concentração de 0,6 a 0,8 mg/L para prevenção de cáries. O pH é ajustado entre 6,0 e 9,5 para atender à legislação vigente.</p>
+        </div>
+      </div>
+
+      <div class="etapa-item reveal">
+        <div class="etapa-numero">8</div>
+        <div class="etapa-texto">
+          <div class="etapa-badge">Distribuição</div>
+          <span class="etapa-emoji">🏠</span>
+          <h3>Reservação e Distribuição</h3>
+          <p>A água tratada é armazenada em reservatórios que garantem pressão e volume para o abastecimento. Uma rede de distribuição conduz a água até as residências, indústrias e serviços públicos com qualidade monitorada continuamente.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRESERVAÇÃO AMBIENTAL -->
+<section class="preservacao" id="preservacao">
+  <div class="section-header reveal">
+    <div class="section-tag">Consciência Ambiental</div>
+    <h2 class="section-title">A Preservação do Meio Ambiente<br>começa em cada um de nós</h2>
+    <p class="section-sub">A qualidade da água que chega às ETAs depende diretamente da saúde dos ecossistemas. Preservar é proteger a fonte.</p>
+  </div>
+
+  <div class="preservacao-split">
+    <div class="preservacao-visual reveal">
+      <svg viewBox="0 0 500 400" class="preservacao-svg" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a8d8ea"/>
+            <stop offset="100%" stop-color="#c8f0c8"/>
+          </linearGradient>
+          <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#48a9c5"/>
+            <stop offset="100%" stop-color="#1e6091"/>
+          </linearGradient>
+        </defs>
+        <rect width="500" height="400" fill="url(#sky)" rx="24"/>
+        <!-- Montanhas -->
+        <polygon points="0,280 120,120 240,280" fill="#2d5a27" opacity="0.9"/>
+        <polygon points="100,280 240,100 380,280" fill="#4a7c3f" opacity="0.9"/>
+        <polygon points="260,280 380,140 500,280" fill="#2d5a27" opacity="0.9"/>
+        <!-- Rio -->
+        <ellipse cx="250" cy="320" rx="220" ry="60" fill="url(#water)" opacity="0.85"/>
+        <!-- Sol -->
+        <circle cx="420" cy="70" r="45" fill="#ffd700" opacity="0.9"/>
+        <circle cx="420" cy="70" r="55" fill="#ffd700" opacity="0.3"/>
+        <!-- Árvores -->
+        <rect x="55" y="240" width="10" height="40" fill="#8b5e3c"/>
+        <circle cx="60" cy="230" r="22" fill="#2d5a27"/>
+        <rect x="130" y="250" width="8" height="30" fill="#8b5e3c"/>
+        <circle cx="134" cy="242" r="16" fill="#4a7c3f"/>
+        <!-- Nuvens -->
+        <ellipse cx="150" cy="80" rx="55" ry="28" fill="white" opacity="0.9"/>
+        <ellipse cx="120" cy="88" rx="35" ry="22" fill="white" opacity="0.9"/>
+        <ellipse cx="180" cy="88" rx="35" ry="22" fill="white" opacity="0.9"/>
+        <!-- Pássaros -->
+        <path d="M310 60 Q315 54 320 60" stroke="#1a3a1f" stroke-width="2" fill="none"/>
+        <path d="M325 52 Q330 46 335 52" stroke="#1a3a1f" stroke-width="2" fill="none"/>
+        <!-- Texto SVG -->
+        <text x="250" y="385" text-anchor="middle" font-family="Lora, serif" font-size="13" fill="#1a3a1f" opacity="0.7">Preservar é garantir o futuro</text>
+      </svg>
+    </div>
+    <div class="preservacao-texto reveal">
+      <h2>Por que preservar os mananciais é vital?</h2>
+      <p>Os mananciais — rios, lagos, nascentes e aquíferos — são as fontes de água tratada pelas ETAs. Quando eles são degradados por desmatamento, poluição e ocupação irregular, toda a cadeia de abastecimento é comprometida.</p>
+      <p>A preservação das matas ciliares, o controle do lançamento de esgoto e a gestão adequada de resíduos sólidos são fundamentais para garantir água de qualidade para as gerações futuras.</p>
+      <ul class="checklist">
+        <li><div class="check-icon">✓</div><span><strong>Matas ciliares:</strong> filtram poluentes e evitam erosão nas margens dos rios</span></li>
+        <li><div class="check-icon">✓</div><span><strong>Saneamento básico:</strong> evita contaminação de lençóis freáticos por esgoto</span></li>
+        <li><div class="check-icon">✓</div><span><strong>Descarte correto:</strong> produtos químicos e medicamentos não devem ser jogados no esgoto</span></li>
+        <li><div class="check-icon">✓</div><span><strong>Uso consciente:</strong> reduzir o desperdício alivia a pressão sobre os mananciais</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="preservacao-split reverse">
+    <div class="preservacao-visual reveal">
+      <svg viewBox="0 0 500 400" class="preservacao-svg" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#f5f0e8"/>
+            <stop offset="100%" stop-color="#c8f0c8"/>
+          </linearGradient>
+        </defs>
+        <rect width="500" height="400" fill="url(#bg2)" rx="24"/>
+        <!-- Ciclo da água ilustrado -->
+        <circle cx="250" cy="200" r="150" fill="none" stroke="#48a9c5" stroke-width="2" stroke-dasharray="8,4" opacity="0.5"/>
+        <!-- Sol -->
+        <circle cx="250" cy="60" r="40" fill="#ffd700" opacity="0.8"/>
+        <!-- Nuvem -->
+        <ellipse cx="390" cy="130" rx="55" ry="30" fill="white" opacity="0.95"/>
+        <ellipse cx="365" cy="140" rx="35" ry="24" fill="white" opacity="0.95"/>
+        <ellipse cx="415" cy="140" rx="35" ry="24" fill="white" opacity="0.95"/>
+        <!-- Chuva -->
+        <line x1="370" y1="165" x2="362" y2="195" stroke="#48a9c5" stroke-width="2"/>
+        <line x1="385" y1="165" x2="377" y2="195" stroke="#48a9c5" stroke-width="2"/>
+        <line x1="400" y1="165" x2="392" y2="195" stroke="#48a9c5" stroke-width="2"/>
+        <!-- Rio -->
+        <path d="M 380 220 Q 300 250 220 260 Q 150 270 100 310" stroke="#1e6091" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.8"/>
+        <!-- Terra/vegetação -->
+        <ellipse cx="130" cy="340" rx="100" ry="40" fill="#4a7c3f" opacity="0.7"/>
+        <ellipse cx="350" cy="340" rx="80" ry="35" fill="#2d5a27" opacity="0.7"/>
+        <!-- Setas de ciclo -->
+        <text x="250" y="210" text-anchor="middle" font-family="DM Sans" font-size="11" fill="#1e6091" opacity="0.8">CICLO HIDROLÓGICO</text>
+        <!-- Evaporação -->
+        <path d="M160 300 Q 200 200 250 110" stroke="#48a9c5" stroke-width="2" fill="none" stroke-dasharray="5,3" opacity="0.6"/>
+        <text x="148" y="295" font-family="DM Sans" font-size="10" fill="#1e6091" opacity="0.8">Evaporação</text>
+        <!-- Infiltração -->
+        <text x="300" y="350" font-family="DM Sans" font-size="10" fill="#2d5a27" opacity="0.8">Infiltração</text>
+      </svg>
+    </div>
+    <div class="preservacao-texto reveal">
+      <h2>O ciclo da água e nossa responsabilidade</h2>
+      <p>A água segue um ciclo contínuo na natureza: evapora dos oceanos e superfícies, forma nuvens, precipita como chuva e neve, infiltra no solo ou escoa para rios e lagos, e volta a evaporar.</p>
+      <p>Atividades humanas que comprometem esse ciclo — como impermeabilização do solo, desmatamento e poluição — reduzem a disponibilidade de água doce e aumentam o custo e a dificuldade do tratamento nas ETAs.</p>
+      <ul class="checklist">
+        <li><div class="check-icon">✓</div><span><strong>Reflorestamento:</strong> aumenta a infiltração e recarga de aquíferos</span></li>
+        <li><div class="check-icon">✓</div><span><strong>Áreas permeáveis:</strong> jardins e pisos drenantes ajudam a recarregar o lençol freático</span></li>
+        <li><div class="check-icon">✓</div><span><strong>Captação de chuva:</strong> técnica sustentável para usos não potáveis</span></li>
+        <li><div class="check-icon">✓</div><span><strong>Educação ambiental:</strong> sensibilização da população é chave para mudança de hábitos</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SUSTENTABILIDADE -->
+<section class="sustentabilidade" id="sustentabilidade">
+  <div class="section-header reveal">
+    <div class="section-tag">Ação Coletiva</div>
+    <h2 class="section-title">Pilares da Sustentabilidade<br>Hídrica</h2>
+    <p class="section-sub">Preservar a água é uma responsabilidade compartilhada entre governo, empresas e cada cidadão. Conheça os pilares que sustentam um futuro hídrico seguro.</p>
+  </div>
+  <div class="pilares-grid">
+    <div class="pilar reveal">
+      <span class="pilar-emoji">💧</span>
+      <h3>Uso Racional da Água</h3>
+      <p>Reduzir o desperdício doméstico e industrial diminui a demanda sobre os mananciais e os custos de tratamento.</p>
+    </div>
+    <div class="pilar reveal">
+      <span class="pilar-emoji">🌳</span>
+      <h3>Proteção de Nascentes</h3>
+      <p>Nascentes são a origem dos rios. Cercá-las e reflorestar seu entorno é fundamental para garantir água no futuro.</p>
+    </div>
+    <div class="pilar reveal">
+      <span class="pilar-emoji">🏭</span>
+      <h3>Controle da Poluição</h3>
+      <p>Fiscalização de indústrias e tratamento de esgoto doméstico evitam a contaminação de rios e aquíferos.</p>
+    </div>
+    <div class="pilar reveal">
+      <span class="pilar-emoji">📚</span>
+      <h3>Educação Ambiental</h3>
+      <p>Cidadãos bem informados fazem escolhas conscientes que reduzem o impacto ambiental no dia a dia.</p>
+    </div>
+    <div class="pilar reveal">
+      <span class="pilar-emoji">🔬</span>
+      <h3>Tecnologia e Inovação</h3>
+      <p>Sensores inteligentes, reúso de água e ETAs mais eficientes contribuem para um abastecimento sustentável.</p>
+    </div>
+    <div class="pilar reveal">
+      <span class="pilar-emoji">⚖️</span>
+      <h3>Políticas Públicas</h3>
+      <p>Marco Legal do Saneamento e legislações ambientais são essenciais para garantir acesso universal à água tratada.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contato">
+  <div class="cta-content">
+    <h2>🌿 Seja parte da mudança que o planeta precisa</h2>
+    <p>A preservação do meio ambiente começa com pequenas atitudes. Use a água conscientemente, proteja os mananciais e ajude a construir um futuro com água limpa para todos.</p>
+    <div class="cta-btns">
+      <a href="#etapas" class="btn-cta-white">Revisitar as Etapas ETA</a>
+      <a href="#importancia" class="btn-cta-ghost">Saiba Mais</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">💧 Aqua<span>Vita</span></div>
+      <p class="footer-desc">Promovendo a consciência sobre o tratamento de água e a preservação ambiental para garantir um futuro sustentável para as próximas gerações.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Conteúdo</h4>
+      <ul>
+        <li><a href="#importancia">Importância da ETA</a></li>
+        <li><a href="#etapas">Etapas do Tratamento</a></li>
+        <li><a href="#preservacao">Preservação Ambiental</a></li>
+        <li><a href="#sustentabilidade">Sustentabilidade</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Referências</h4>
+      <ul>
+        <li><a href="#">ABNT NBR 12216</a></li>
+        <li><a href="#">Portaria GM/MS 888</a></li>
+        <li><a href="#">OMS — Água e Saúde</a></li>
+        <li><a href="#">ANA — Agência Nacional</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 AquaVita — Saneamento Ambiental. Feito com 💚 para um planeta mais sustentável.</p>
+  </div>
+</footer>
+
+<script>
+  // Animação reveal no scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 50) {
+      nav.style.boxShadow = '0 4px 30px rgba(0,0,0,0.3)';
+    } else {
+      nav.style.boxShadow = 'none';
+    }
+  });
+
+  // Contador animado nos dados
+  function animateCounter(el, target, suffix='') {
+    let start = 0;
+    const duration = 2000;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) {
+        el.textContent = target + suffix;
+        clearInterval(timer);
+      } else {
+        el.textContent = Math.floor(start) + suffix;
+      }
+    }, 16);
+  }
+
+  const dadosObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const nums = entry.target.querySelectorAll('.dado-num');
+        nums.forEach(num => {
+          const text = num.textContent;
+          if (text.includes('%')) {
+            animateCounter(num, parseInt(text), '%');
+          } else if (text.includes('B')) {
+            animateCounter(num, 2, 'B+');
+          } else if (text.includes('M')) {
+            animateCounter(num, 785, 'M');
+          }
+        });
+        dadosObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const dadosSection = document.querySelector('.dados');
+  if (dadosSection) dadosObserver.observe(dadosSection);
+</script>
+</body>
+</html>
